@@ -7,8 +7,8 @@ from resources.user import UserRegiser
 from resources.item import Item, ItemList
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db' # Can be any db, postgres TSQL MSSQL
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
 app.secret_key = 'yaj' # should be secure
 api = Api(app)
 
