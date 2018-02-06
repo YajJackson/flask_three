@@ -7,12 +7,14 @@ class Item(Resource):
   parser = reqparse.RequestParser()
   parser.add_argument('price', type=float, required=True, help='Price field cannot be left blank')
 
+  @jwt_required() # requires jwt authentication header
   def get(self, name):
     item = ItemModel.find_by_name(name)
     if item:
       return item.json()
     return {'message': 'Item not found'}, 400
 
+  @jwt_required() # requires jwt authentication header
   def post(self, name):
     if ItemModel.find_by_name(name):
       return {'message': 'An item with name "{}" already exists.'.format(name)}, 400
@@ -27,6 +29,7 @@ class Item(Resource):
 
     return item.json(), 201
 
+  @jwt_required() # requires jwt authentication header
   def put(self, name):
     data = self.parser.parse_args()
 
@@ -45,7 +48,7 @@ class Item(Resource):
         return {"messsage": "An error occurred while updating an item"}, 500
     return updated_item.json()
   
-  #@jwt_required() # requires jwt authentication header
+  @jwt_required() # requires jwt authentication header
   def delete(self, name):
     connection = sqlite3.connect('data.db')
     cursor = connection.cursor()
