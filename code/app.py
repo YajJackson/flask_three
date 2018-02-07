@@ -5,6 +5,7 @@ from flask_jwt import JWT
 from security import authenticate, identity
 from resources.user import UserRegiser
 from resources.item import Item, ItemList
+from resources.store import Store, StoreList
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db' # Can be any db, postgres TSQL MSSQL
@@ -18,6 +19,8 @@ def create_tables():
 
 jwt = JWT(app, authenticate, identity) # /auth
 
+api.add_resource(Store, '/store/<name>')
+api.add_resource(StoreList, '/stores')
 api.add_resource(Item, '/item/<name>')
 api.add_resource(ItemList, '/items')
 api.add_resource(UserRegiser, '/register')
