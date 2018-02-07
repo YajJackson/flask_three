@@ -7,12 +7,11 @@ class StoreModel(db.Model):
   name = db.Column(db.String(80))
   items = db.relationship('ItemModel', lazy='dynamic') # lazy converts 'items' from list to a query builder
 
-  def __init__(self, name, price):
+  def __init__(self, name):
     self.name = name
-    self.price = price
   
   def json(self):
-    return {'name': self.name, 'items': [item.json() for item in self.items.all()]} #while items are lazy=dynamic, the query must return .all()
+    return {'name': self.name, 'store_id':self.id, 'items': [item.json() for item in self.items.all()]} #while items are lazy=dynamic, the query must return .all()
 
   @classmethod
   def find_by_name(cls, name):
